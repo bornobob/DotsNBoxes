@@ -118,7 +118,6 @@ namespace DotsNBoxes
             panel.Tag = tag;
             panel.Location = location;
             panel.Size = size;
-            panel.BackColor = Color.FromArgb(255, (255 / (_GameController.GetHeight() * _GameController.GetWidth())) * (tag.Item1 * _GameController.GetWidth() + tag.Item2), 126, (255 / (_GameController.GetHeight() * _GameController.GetWidth())) * (_GameController.GetHeight() * _GameController.GetWidth() - (tag.Item1 * _GameController.GetWidth() + tag.Item2)));
             BoxPanels[tag.Item1, tag.Item2] = panel;
             Controls.Add(panel);
         }
