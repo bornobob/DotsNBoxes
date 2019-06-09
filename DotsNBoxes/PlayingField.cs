@@ -17,6 +17,8 @@ namespace DotsNBoxes
             set
             {
                 this._GameController = value;
+                _GameController.UpdateLineEvent += new Action<int, int>(UpdateBoard);
+                _GameController.UpdateFieldEvent += new Action<int, int>(UpdateField);
                 this.LineButtons = new Button[2 * _GameController.GetHeight() + 1, _GameController.GetWidth() + 1];
                 this.BoxPanels = new Panel[_GameController.GetHeight(), _GameController.GetWidth()];
                 DrawField();
@@ -124,9 +126,15 @@ namespace DotsNBoxes
         
         private void ButtonClick(object sender, EventArgs e)
         {
-            Button button = (Button)sender;
-            Tuple<int, int> loc = (Tuple<int, int>)button.Tag;
-            Console.Out.WriteLine(loc);
+            if (_GameController.CurrentPlayer is HumanStrategy)
+            {
+                Button button = (Button)sender;
+                Tuple<int, int> loc = (Tuple<int, int>)button.Tag;
+                if (!_GameController.LineTaken(loc.Item1, loc.Item2))
+                {
+                    _GameController.HumanChoseLine(loc.Item1, loc.Item2);
+                }
+            }
         }
 
 
@@ -137,6 +145,18 @@ namespace DotsNBoxes
                 ResizeLineButtons();
                 ResizePanels();
             }
+        }
+
+        private void UpdateBoard(int row, int col)
+        {
+            Color color = _GameController.OwnerOfLine(row, col).GetPlayerColor();
+            LineButtons[row, col].BackColor = color;
+        }
+
+        private void UpdateField(int row, int col)
+        {
+            Color color = _GameController.CurrentPlayer.GetPlayerColor();
+            BoxPanels[row, col].BackColor = color;
         }
     }
 }

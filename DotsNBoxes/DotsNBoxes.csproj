@@ -47,6 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameController.cs" />
+    <Compile Include="HumanStrategy.cs" />
+    <Compile Include="IPlayerStrategy.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

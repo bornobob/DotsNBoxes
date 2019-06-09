@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace DotsNBoxes
 {
@@ -12,11 +15,16 @@ namespace DotsNBoxes
             InitializeComponent();
             InitializeGameController();
             AddPlayingField();
+            GameController.StartGame();
         }
 
         private void InitializeGameController()
         {
-            GameController = new GameController(8, 5, 2);
+            List<IPlayerStrategy> players = new List<IPlayerStrategy>();
+            players.Add(new HumanStrategy("Bob", Color.Red));
+            players.Add(new HumanStrategy("Alice", Color.Blue));
+            GameController = new GameController(8, 5, players, 0);
+            GameController.NextPlayerEvent += new Action(SetNextPlayerInfo);
         }
 
         private void AddPlayingField()
@@ -25,6 +33,12 @@ namespace DotsNBoxes
             PlayingField.Dock = DockStyle.Fill;
             FieldPanel.Controls.Add(PlayingField);
             PlayingField.GameController = GameController;
+        }
+
+        private void SetNextPlayerInfo()
+        {
+            CurrentPlayerLabel.Text = GameController.CurrentPlayer.GetPlayerName();
+            CurrentPlayerColorPanel.BackColor = GameController.CurrentPlayer.GetPlayerColor();
         }
     }
 }
