@@ -66,8 +66,10 @@ namespace DotsNBoxes
                 Tuple<int, int> chosenCoords = currentPlayer.ChooseNextLocation();
                 Board[chosenCoords.Item1, chosenCoords.Item2] = _CurrentPlayer;
                 UpdateLineEvent(chosenCoords.Item1, chosenCoords.Item2);
-                CalculateScoresAfterLine(chosenCoords.Item1, chosenCoords.Item2);
-                NextPlayer();
+                if (!CalculateScoresAfterLine(chosenCoords.Item1, chosenCoords.Item2))
+                {
+                    NextPlayer();
+                }
             }
         }
 
@@ -93,8 +95,10 @@ namespace DotsNBoxes
         {
             Board[row, col] = _CurrentPlayer;
             UpdateLineEvent(row, col);
-            CalculateScoresAfterLine(row, col);
-            NextPlayer();
+            if (!CalculateScoresAfterLine(row, col))
+            {
+                NextPlayer();
+            }
         }
         
         public IPlayerStrategy OwnerOfLine(int row, int col)
@@ -108,8 +112,9 @@ namespace DotsNBoxes
             }
         }
 
-        private void CalculateScoresAfterLine(int row, int col)
+        private bool CalculateScoresAfterLine(int row, int col)
         {
+            bool gotPoints = false;
             foreach (Tuple<int, int> field in GetFieldsBesidesLine(row, col))
             {
                 bool fullField = true;
@@ -125,9 +130,11 @@ namespace DotsNBoxes
                 if (fullField)
                 {
                     Scores[_CurrentPlayer] += 1;
-                     UpdateFieldEvent(field.Item1, field.Item2);
+                    UpdateFieldEvent(field.Item1, field.Item2);
+                    gotPoints = true;
                 }
             }
+            return gotPoints;
         }
 
         private List<Tuple<int, int>> GetLinesBesidesField(int row, int col)
