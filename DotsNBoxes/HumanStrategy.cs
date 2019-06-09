@@ -5,13 +5,20 @@ namespace DotsNBoxes
 {
     class HumanStrategy : IPlayerStrategy
     {
-        private string Name;
-        private Color Color;
+        private readonly string Name;
+        private readonly Color Color;
+        private int Score;
         
         public HumanStrategy(string name, Color color)
         {
             Name = name;
             Color = color;
+            Score = 0;
+        }
+
+        public void AddPoint()
+        {
+            Score += 1;
         }
 
         public Tuple<int, int> ChooseNextLocation()
@@ -27,6 +34,11 @@ namespace DotsNBoxes
         public string GetPlayerName()
         {
             return Name;
+        }
+
+        public int GetScore()
+        {
+            return Score;
         }
     }
 }

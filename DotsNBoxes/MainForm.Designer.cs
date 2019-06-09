@@ -33,7 +33,14 @@
             this.CurrentPlayerColorPanel = new System.Windows.Forms.Panel();
             this.CurrentPlayerLabel = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ScoresGroupBox = new System.Windows.Forms.GroupBox();
+            this.ScoresGrid = new System.Windows.Forms.DataGridView();
+            this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ScoreColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
+            this.ScoresGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ScoresGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // FieldPanel
@@ -80,16 +87,70 @@
             this.groupBox1.Controls.Add(this.CurrentPlayerColorPanel);
             this.groupBox1.Location = new System.Drawing.Point(564, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(224, 59);
+            this.groupBox1.Size = new System.Drawing.Size(224, 41);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Info";
+            // 
+            // ScoresGroupBox
+            // 
+            this.ScoresGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ScoresGroupBox.Controls.Add(this.ScoresGrid);
+            this.ScoresGroupBox.Location = new System.Drawing.Point(564, 59);
+            this.ScoresGroupBox.Name = "ScoresGroupBox";
+            this.ScoresGroupBox.Size = new System.Drawing.Size(224, 142);
+            this.ScoresGroupBox.TabIndex = 5;
+            this.ScoresGroupBox.TabStop = false;
+            this.ScoresGroupBox.Text = "Scores";
+            // 
+            // ScoresGrid
+            // 
+            this.ScoresGrid.AllowUserToAddRows = false;
+            this.ScoresGrid.AllowUserToDeleteRows = false;
+            this.ScoresGrid.AllowUserToOrderColumns = true;
+            this.ScoresGrid.AllowUserToResizeColumns = false;
+            this.ScoresGrid.AllowUserToResizeRows = false;
+            this.ScoresGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ScoresGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.NameColumn,
+            this.ColorColumn,
+            this.ScoreColumn});
+            this.ScoresGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ScoresGrid.Location = new System.Drawing.Point(3, 16);
+            this.ScoresGrid.Name = "ScoresGrid";
+            this.ScoresGrid.ReadOnly = true;
+            this.ScoresGrid.RowHeadersVisible = false;
+            this.ScoresGrid.Size = new System.Drawing.Size(218, 123);
+            this.ScoresGrid.TabIndex = 0;
+            this.ScoresGrid.SelectionChanged += new System.EventHandler(this.ScoresGrid_SelectionChanged);
+            // 
+            // NameColumn
+            // 
+            this.NameColumn.HeaderText = "Name";
+            this.NameColumn.Name = "NameColumn";
+            this.NameColumn.ReadOnly = true;
+            this.NameColumn.Width = 135;
+            // 
+            // ColorColumn
+            // 
+            this.ColorColumn.HeaderText = "";
+            this.ColorColumn.Name = "ColorColumn";
+            this.ColorColumn.ReadOnly = true;
+            this.ColorColumn.Width = 28;
+            // 
+            // ScoreColumn
+            // 
+            this.ScoreColumn.HeaderText = "Score";
+            this.ScoreColumn.Name = "ScoreColumn";
+            this.ScoreColumn.ReadOnly = true;
+            this.ScoreColumn.Width = 50;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.ScoresGroupBox);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.FieldPanel);
             this.MinimumSize = new System.Drawing.Size(816, 489);
@@ -98,6 +159,8 @@
             this.Text = "Dots \'n Boxes";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.ScoresGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ScoresGrid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -109,6 +172,11 @@
         private System.Windows.Forms.Panel CurrentPlayerColorPanel;
         private System.Windows.Forms.Label CurrentPlayerLabel;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox ScoresGroupBox;
+        private System.Windows.Forms.DataGridView ScoresGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColorColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ScoreColumn;
     }
 }
 

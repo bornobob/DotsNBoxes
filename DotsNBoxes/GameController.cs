@@ -8,11 +8,11 @@ namespace DotsNBoxes
         public event Action<int, int> UpdateLineEvent;
         public event Action NextPlayerEvent;
         public event Action<int, int> UpdateFieldEvent;
+        public event Action<int> ScoresChanged;
 
         private int[,] Board;
         private List<IPlayerStrategy> Players;
         private int _CurrentPlayer;
-        private int[] Scores;
 
         public IPlayerStrategy CurrentPlayer
         {
@@ -24,16 +24,6 @@ namespace DotsNBoxes
             InitializeBoard(width, height);
             Players = players;
             _CurrentPlayer = firstPlayer;
-            InitializeScores();
-        }
-
-        private void InitializeScores()
-        {
-            Scores = new int[Players.Count];
-            for (int i = 0; i < Scores.Length; i++)
-            {
-                Scores[i] = 0;
-            }
         }
 
         private void InitializeBoard(int width, int height)
@@ -129,11 +119,12 @@ namespace DotsNBoxes
                 }
                 if (fullField)
                 {
-                    Scores[_CurrentPlayer] += 1;
+                    CurrentPlayer.AddPoint();
                     UpdateFieldEvent(field.Item1, field.Item2);
                     gotPoints = true;
                 }
             }
+            if (gotPoints) ScoresChanged(_CurrentPlayer);
             return gotPoints;
         }
 
@@ -162,6 +153,16 @@ namespace DotsNBoxes
                 if (col < Board.GetLength(1) - 1) coords.Add(new Tuple<int, int>((row - 1) / 2, col));
             }
             return coords;
+        }
+
+        public List<IPlayerStrategy> GetPlayers()
+        {
+            return Players;
+        }
+
+        public IPlayerStrategy GetPlayerById(int id)
+        {
+            return Players[id];
         }
     }
 }

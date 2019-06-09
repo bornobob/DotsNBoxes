@@ -14,6 +14,7 @@ namespace DotsNBoxes
         {
             InitializeComponent();
             InitializeGameController();
+            InitializeScores();
             AddPlayingField();
             GameController.StartGame();
         }
@@ -25,6 +26,22 @@ namespace DotsNBoxes
             players.Add(new HumanStrategy("Alice", Color.Blue));
             GameController = new GameController(8, 5, players, 0);
             GameController.NextPlayerEvent += new Action(SetNextPlayerInfo);
+            GameController.ScoresChanged += new Action<int>(UpdateScores);
+        }
+
+        private void InitializeScores()
+        {
+            foreach (IPlayerStrategy player in GameController.GetPlayers())
+            {
+                int idx = ScoresGrid.Rows.Add(new object[] { player.GetPlayerName(), "", player.GetScore() });
+                ScoresGrid.Rows[idx].Cells["ColorColumn"].Style.BackColor = player.GetPlayerColor();
+            }
+        }
+
+        private void UpdateScores(int id)
+        {
+            IPlayerStrategy player = GameController.GetPlayerById(id);
+            ScoresGrid.Rows[id].Cells["ScoreColumn"].Value = player.GetScore();
         }
 
         private void AddPlayingField()
@@ -39,6 +56,11 @@ namespace DotsNBoxes
         {
             CurrentPlayerLabel.Text = GameController.CurrentPlayer.GetPlayerName();
             CurrentPlayerColorPanel.BackColor = GameController.CurrentPlayer.GetPlayerColor();
+        }
+
+        private void ScoresGrid_SelectionChanged(object sender, EventArgs e)
+        {
+            ScoresGrid.ClearSelection();
         }
     }
 }

@@ -10,5 +10,9 @@ namespace DotsNBoxes
         Color GetPlayerColor();
 
         Tuple<int, int> ChooseNextLocation();
+
+        int GetScore();
+
+        void AddPoint();
     }
 }
