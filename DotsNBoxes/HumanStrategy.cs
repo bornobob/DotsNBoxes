@@ -23,7 +23,7 @@ namespace DotsNBoxes
 
         public Tuple<int, int> ChooseNextLocation()
         {
-            throw new NotImplementedException("Human player does not automatically choose a location");
+            throw new InvalidOperationException("Human player does not automatically choose a location");
         }
 
         public Color GetPlayerColor()

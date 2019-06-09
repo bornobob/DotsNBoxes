@@ -19,11 +19,16 @@ namespace DotsNBoxes
             get => Players[_CurrentPlayer];
         }
 
-        public GameController(int width, int height, List<IPlayerStrategy> players, int firstPlayer)
+        public GameController(int width, int height, int firstPlayer)
         {
             InitializeBoard(width, height);
-            Players = players;
             _CurrentPlayer = firstPlayer;
+            Players = new List<IPlayerStrategy>();
+        }
+
+        public void AddPlayer(IPlayerStrategy player)
+        {
+            Players.Add(player);
         }
 
         private void InitializeBoard(int width, int height)
@@ -33,7 +38,8 @@ namespace DotsNBoxes
             {
                 for (int col = 0; col < Board.GetLength(1); col++)
                 {
-                    Board[row, col] = -1;
+                    if (row % 2 == 0 && col == Board.GetLength(1) - 1) Board[row, col] = -2;
+                    else Board[row, col] = -1;
                 }
             }
         }
@@ -59,6 +65,9 @@ namespace DotsNBoxes
                 if (!CalculateScoresAfterLine(chosenCoords.Item1, chosenCoords.Item2))
                 {
                     NextPlayer();
+                } else
+                {
+                    ProcessPlayerTurn();
                 }
             }
         }
@@ -163,6 +172,11 @@ namespace DotsNBoxes
         public IPlayerStrategy GetPlayerById(int id)
         {
             return Players[id];
+        }
+
+        public int[,] GetBoard()
+        {
+            return Board;
         }
     }
 }

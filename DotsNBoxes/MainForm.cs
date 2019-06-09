@@ -21,12 +21,11 @@ namespace DotsNBoxes
 
         private void InitializeGameController()
         {
-            List<IPlayerStrategy> players = new List<IPlayerStrategy>();
-            players.Add(new HumanStrategy("Bob", Color.Red));
-            players.Add(new HumanStrategy("Alice", Color.Blue));
-            GameController = new GameController(8, 5, players, 0);
+            GameController = new GameController(8, 5, 0);
             GameController.NextPlayerEvent += new Action(SetNextPlayerInfo);
             GameController.ScoresChanged += new Action<int>(UpdateScores);
+            GameController.AddPlayer(new HumanStrategy("Bob", Color.Red));
+            GameController.AddPlayer(new HumanStrategy("Alice", Color.Blue));
         }
 
         private void InitializeScores()
