@@ -10,7 +10,13 @@ namespace DotsNBoxes
         public MainForm()
         {
             InitializeComponent();
+            InitializeGameController();
             AddPlayingField();
+        }
+
+        private void InitializeGameController()
+        {
+            GameController = new GameController(8, 5, 2);
         }
 
         private void AddPlayingField()
@@ -18,7 +24,7 @@ namespace DotsNBoxes
             PlayingField = new PlayingField();
             PlayingField.Dock = DockStyle.Fill;
             FieldPanel.Controls.Add(PlayingField);
-            PlayingField.GameController = new GameController(6, 5, 2);
+            PlayingField.GameController = GameController;
         }
     }
 }
