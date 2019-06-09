@@ -26,6 +26,7 @@ namespace DotsNBoxes
             GameController.ScoresChanged += new Action<int>(UpdateScores);
             GameController.AddPlayer(new HumanStrategy("Bob", Color.Red));
             GameController.AddPlayer(new HumanStrategy("Alice", Color.Blue));
+            GameController.AddPlayer(new RandomStrategy("Eve", Color.Green, GameController));
         }
 
         private void InitializeScores()
