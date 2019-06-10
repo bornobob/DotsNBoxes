@@ -10,6 +10,7 @@ namespace DotsNBoxes
         private readonly string Name;
         private readonly Color Color;
         private readonly GameController Controller;
+        private readonly Random Random;
 
         public RandomStrategy(string name, Color color, GameController controller)
         {
@@ -17,6 +18,7 @@ namespace DotsNBoxes
             Color = color;
             Score = 0;
             Controller = controller;
+            Random = new Random(GetHashCode());
         }
 
         public void AddPoint()
@@ -26,10 +28,10 @@ namespace DotsNBoxes
 
         public Tuple<int, int> ChooseNextLocation()
         {
-            Random random = new Random();
+            
             List<Tuple<int, int>> locations = GetPossibleLocations();
             if (locations.Count == 0) throw new InvalidOperationException("No possible choices, game should have ended");
-            return locations[random.Next(locations.Count)];
+            return locations[Random.Next(locations.Count)];
         }
 
         public Color GetPlayerColor()
@@ -59,6 +61,24 @@ namespace DotsNBoxes
                 }
             }
             return locations;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var strategy = obj as RandomStrategy;
+            return strategy != null &&
+                   Score == strategy.Score &&
+                   Name == strategy.Name &&
+                   EqualityComparer<Color>.Default.Equals(Color, strategy.Color);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 182789875;
+            hashCode = hashCode * -1521134295 + Score.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Color>.Default.GetHashCode(Color);
+            return hashCode;
         }
     }
 }

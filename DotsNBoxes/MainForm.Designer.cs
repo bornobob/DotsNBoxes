@@ -107,7 +107,6 @@
             // 
             this.ScoresGrid.AllowUserToAddRows = false;
             this.ScoresGrid.AllowUserToDeleteRows = false;
-            this.ScoresGrid.AllowUserToOrderColumns = true;
             this.ScoresGrid.AllowUserToResizeColumns = false;
             this.ScoresGrid.AllowUserToResizeRows = false;
             this.ScoresGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -120,6 +119,7 @@
             this.ScoresGrid.Name = "ScoresGrid";
             this.ScoresGrid.ReadOnly = true;
             this.ScoresGrid.RowHeadersVisible = false;
+            this.ScoresGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.ScoresGrid.Size = new System.Drawing.Size(218, 123);
             this.ScoresGrid.TabIndex = 0;
             this.ScoresGrid.SelectionChanged += new System.EventHandler(this.ScoresGrid_SelectionChanged);
@@ -129,6 +129,7 @@
             this.NameColumn.HeaderText = "Name";
             this.NameColumn.Name = "NameColumn";
             this.NameColumn.ReadOnly = true;
+            this.NameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.NameColumn.Width = 135;
             // 
             // ColorColumn
@@ -136,6 +137,7 @@
             this.ColorColumn.HeaderText = "";
             this.ColorColumn.Name = "ColorColumn";
             this.ColorColumn.ReadOnly = true;
+            this.ColorColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.ColorColumn.Width = 28;
             // 
             // ScoreColumn
@@ -143,6 +145,7 @@
             this.ScoreColumn.HeaderText = "Score";
             this.ScoreColumn.Name = "ScoreColumn";
             this.ScoreColumn.ReadOnly = true;
+            this.ScoreColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.ScoreColumn.Width = 50;
             // 
             // MainForm
