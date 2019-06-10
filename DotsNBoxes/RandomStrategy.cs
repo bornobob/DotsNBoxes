@@ -78,6 +78,7 @@ namespace DotsNBoxes
             hashCode = hashCode * -1521134295 + Score.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             hashCode = hashCode * -1521134295 + EqualityComparer<Color>.Default.GetHashCode(Color);
+            hashCode = hashCode * -1521134295 + DateTime.Now.Millisecond;
             return hashCode;
         }
     }
