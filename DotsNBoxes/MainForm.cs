@@ -24,6 +24,7 @@ namespace DotsNBoxes
             GameController = new GameController(8, 5, 0);
             GameController.NextPlayerEvent += new Action(SetNextPlayerInfo);
             GameController.ScoresChanged += new Action<int>(UpdateScores);
+            GameController.GameFinishedEvent += new Action(GameFinished);
             GameController.AddPlayer(new HumanStrategy("Bob", Color.Red));
             GameController.AddPlayer(new HumanStrategy("Alice", Color.Blue));
             GameController.AddPlayer(new RandomStrategy("Eve", Color.Green, GameController));
@@ -61,6 +62,11 @@ namespace DotsNBoxes
         private void ScoresGrid_SelectionChanged(object sender, EventArgs e)
         {
             ScoresGrid.ClearSelection();
+        }
+
+        private void GameFinished()
+        {
+            MessageBox.Show("Game finished!");
         }
     }
 }

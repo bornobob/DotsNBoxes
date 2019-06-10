@@ -9,6 +9,7 @@ namespace DotsNBoxes
         public event Action NextPlayerEvent;
         public event Action<int, int> UpdateFieldEvent;
         public event Action<int> ScoresChanged;
+        public event Action GameFinishedEvent;
 
         private int[,] Board;
         private List<IPlayerStrategy> Players;
@@ -62,21 +63,43 @@ namespace DotsNBoxes
                 Tuple<int, int> chosenCoords = currentPlayer.ChooseNextLocation();
                 Board[chosenCoords.Item1, chosenCoords.Item2] = _CurrentPlayer;
                 UpdateLineEvent(chosenCoords.Item1, chosenCoords.Item2);
-                if (!CalculateScoresAfterLine(chosenCoords.Item1, chosenCoords.Item2))
-                {
-                    NextPlayer();
-                } else
-                {
-                    ProcessPlayerTurn();
-                }
+                ProcessLineDrawn(chosenCoords.Item1, chosenCoords.Item2);
+            }
+        }
+
+        public void HumanChoseLine(int row, int col)
+        {
+            Board[row, col] = _CurrentPlayer;
+            UpdateLineEvent(row, col);
+            ProcessLineDrawn(row, col);
+        }
+
+        private void ProcessLineDrawn(int row, int col)
+        {
+            bool scoredPoint = CalculateScoresAfterLine(row, col);
+            if (GameFinished())
+            {
+                GameFinishedEvent();
+            } else if (scoredPoint)
+            {
+                ProcessPlayerTurn();
+            } else
+            {
+                NextPlayer();
             }
         }
 
         private void NextPlayer()
         {
-            _CurrentPlayer = (_CurrentPlayer + 1) % Players.Count;
-            NextPlayerEvent();
-            ProcessPlayerTurn();
+            if (!GameFinished())
+            {
+                _CurrentPlayer = (_CurrentPlayer + 1) % Players.Count;
+                NextPlayerEvent();
+                ProcessPlayerTurn();
+            } else
+            {
+                GameFinishedEvent();
+            }
         }
 
         public void StartGame()
@@ -88,16 +111,6 @@ namespace DotsNBoxes
         public bool LineTaken(int row, int col)
         {
             return Board[row, col] != -1;
-        }
-
-        public void HumanChoseLine(int row, int col)
-        {
-            Board[row, col] = _CurrentPlayer;
-            UpdateLineEvent(row, col);
-            if (!CalculateScoresAfterLine(row, col))
-            {
-                NextPlayer();
-            }
         }
         
         public IPlayerStrategy OwnerOfLine(int row, int col)
@@ -162,6 +175,16 @@ namespace DotsNBoxes
                 if (col < Board.GetLength(1) - 1) coords.Add(new Tuple<int, int>((row - 1) / 2, col));
             }
             return coords;
+        }
+
+        private bool GameFinished()
+        {
+            int scoreSum = 0;
+            foreach (IPlayerStrategy player in Players)
+            {
+                scoreSum += player.GetScore();
+            }
+            return scoreSum == GetWidth() * GetHeight();
         }
 
         public List<IPlayerStrategy> GetPlayers()
